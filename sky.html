@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Ooru — Night Sky</title>
+ <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+ <div id="starfield"></div>
+
+ <div id="page2" class="page active">
+
+ <div class="top-bar">✦ &nbsp; O O R U &nbsp; ✦</div>
+
+ <div id="starMarkers"></div>
+
+ <div class="sky-actions">
+
+ <button class="btn-secondary" onclick="goToPage(3)">Leave it to the Stars.</button>
+
+ <button class="btn-secondary" onclick="openPoleStar()">Visit your Pole Star.</button>
+ </div>
+ </div>
+
+ <div id="page3" class="page">
+ <div class="memory-form">
+ <h2>✦ Write to the Stars. ✦</h2>
+
+ <textarea id="memoryText" placeholder="what are you feeling? write it here..."></textarea>
+
+ <input type="text" id="memoryName" placeholder="give it a name (optional)" />
+
+ 
+ <div class="form-actions">
+
+ <button class="btn-primary" onclick="saveMemory(false)">Let the Universe Remember.</button>
+
+ <button class="btn-ghost" onclick="goToPage(2)">Return to the Sky.</button>
+ </div>
+ </div>
+ </div>
+
+ <div id="page4" class="page">
+ <div class="pole-star-content" id="poleStarContent">
+ <h2>✦ Pole Star ✦</h2>
+ <p class="sub">For the moments that guide you.</p>
+
+ <div id="poleEntries"></div>
+ <div class="form-actions" style="margin-top:20px;gap:12px;flex-wrap:wrap;">
+
+ <button class="btn-primary" onclick="goToPage(5)">+ Keep This Forever.</button>
+
+ <button class="btn-ghost" onclick="goToPage(2)">← 
+    Return to the Sky.
+ </button>
+ </div>
+ </div>
+ </div>
+
+ <div id="page5" class="page">
+ <div class="memory-form">
+ <h2>✦ Keep This Forever.✦</h2>
+ <textarea id="poleText" placeholder="what guides you? an achievement? a goal?"></textarea>
+ <input type="text" id="poleName" placeholder="give it a name (optional)" />
+ 
+ <div class="form-actions">
+
+ <button class="btn-primary" onclick="saveMemory(true)">Let it Shine</button>
+ <button class="btn-ghost" onclick="goToPage(4)">Back to Pole Star</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="star-popup" id="starPopup">
+ <div class="star-popup-inner">
+ <h3>✦ a memory ✦</h3>
+
+ <div class="popup-name" id="popupName"></div>
+
+ <div class="popup-text" id="popupText"></div>
+
+ <img class="popup-img" id="popupImg" style="display:none;" />
+
+ <div class="popup-date" id="popupDate"></div>
+ <div class="popup-actions">
+
+ <button class="btn-danger" onclick="releaseMemory()">Set it Free. </button>
+
+ <button class="btn-ghost" onclick="reliveMemory()">Retrieve &amp; relive</button>
+
+ <button class="btn-ghost" onclick="closePopup()">Return</button>
+ </div>
+ </div>
+ </div>
+
+ <canvas id="shootingStarCanvas"></canvas>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="starfield.js"></script>
+<script src="shootingstar.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
