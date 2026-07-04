@@ -1,6 +1,5 @@
-// OORU app.js (debugged excerpt)
-// NOTE: This is your code with syntax errors fixed.
 
+let editingStarId = null;
 function goToPage(num){
 
     document.querySelectorAll(".page").forEach(page=>{
@@ -53,8 +52,8 @@ function saveMemory(toPoleStar){
         : document.getElementById("memoryName");
 
     const text = textField.value.trim();
-const name = nameField.value.trim();
-    // Prevent empty submissions
+    const name = nameField.value.trim();
+
     if(!text){
 
         textField.classList.add("shake");
@@ -64,25 +63,65 @@ const name = nameField.value.trim();
         },500);
 
         return;
+
     }
 
-    
+    const entry = {
 
-    if(file){
+        name: name,
+        text: text,
+        date: editingStarId && getStars()[editingStarId]
+            ? getStars()[editingStarId].date
+            : Date.now()
 
-        reader.readAsDataURL(file);
+    };
+
+    if(toPoleStar){
+
+        const poleEntries = getPoleStar();
+
+        poleEntries.push(entry);
+
+        savePoleStar(poleEntries);
+
+        renderPoleEntries();
 
     }else{
 
-        reader.onload({
-            target:{
-                result:null
-            }
-        });
+        const stars = getStars();
+
+        if(editingStarId){
+
+            stars[editingStarId] = entry;
+            editingStarId = null;
+
+        }else{
+
+            let starId;
+
+            do{
+
+                starId = Math.floor(Math.random()*40)+1;
+
+            }while(stars[starId]);
+
+            stars[starId] = entry;
+
+        }
+
+        saveStars(stars);
+
+        renderStarMarkers();
 
     }
 
+    textField.value = "";
+    nameField.value = "";
+
+    goToPage(2);
+
 }
+    
 
 function openPoleStar(){
   renderPoleEntries();
@@ -120,7 +159,7 @@ function renderPoleEntries(){
             Stored safely in your Pole Star
         </div>
 
-        ${e.image ? '<div class="entry-icon">🖼 Memory Attached</div>' : ''}
+     
 
         <div class="entry-date">
             ${new Date(e.date).toLocaleDateString()}
@@ -172,7 +211,7 @@ function showStarPopup(starId, entry){
     document.getElementById("popupText").style.display = "none";
 
     // Hide image
-    document.getElementById("popupImg").style.display = "none";
+    
 
     // Date only
     document.getElementById("popupDate").textContent =
@@ -222,6 +261,8 @@ function releaseMemory(){
 function reliveMemory(){
 
     if(!currentPopupEntry) return;
+
+    editingStarId = currentPopupStarId;
 
     const memory = currentPopupEntry;
 
@@ -289,5 +330,4 @@ poleStar.addEventListener("click", openPoleStar);
 container.appendChild(poleStar);
 }
 
-document.addEventListener("DOMContentLoaded",renderStarMarkers);
-renderStarMarkers();
+
